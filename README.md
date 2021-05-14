@@ -3,7 +3,7 @@ Program to colect data from a graph printed on a image file
 
 ## About
 
-This code implements a Kivy based GUI for an algorithm to collect data from a graph printed on a image file.
+This code implements a Kivy based GUI for an algorithm to collect data from a graph printed in a image file.
 
 ## Dependencies
 - python 3
@@ -13,12 +13,12 @@ This code implements a Kivy based GUI for an algorithm to collect data from a gr
 
 ## Instalation
 
-Download the ‘gdfi.py’ and ‘kivyplt.py’ files. The latter contains classes and functions for the GUI.
-Just call ‘python gdfi.py igmage_path’
+Download the ‘gdfi.py’ and ‘kivyplt.py’ files. The latter contains classes and functions for the GUI. \\
+Call ‘python gdfi.py igmage_path’ on the command line
 
 ## Algorithm Description
 
-The algorithm search in every column of the pixel matrix for pixels that are bellow a minimum “distance” threshold of a fixed pixel, determined by the user. The pixel distance mimics the euclidean distance.  
+The algorithm search in every column of the pixel matrix for pixels that are bellow a minimum “distance” threshold of a fixed pixel determined by the user. The pixel distance mimics the euclidean distance.  
 If more then one pixel falls bellow the threshold, the program will choose the pixel closest to the previous one.
 
 # Documentation
@@ -92,7 +92,7 @@ In some situations, might be necessary correct some points. To do that, click in
 
 ## Other options
 
-- Clicking in the injective button to change between True and False the 'injective' variable. If True, will collect only one pixel per column. If False, will collect all pixels that satisfy the threshold condition, e.g. , get points of a circle.
+- Click in the injective button to change the 'injective' variable between True and False values. If True, will collect only one pixel per column. If False, will collect all pixels that satisfy the threshold condition, e.g. , get points of a circle.
 - The program try to automatic choose a color for the collected data with some contrast with the original data. But you can choose the color and line width at the end of the lateral menu. 
 
 
