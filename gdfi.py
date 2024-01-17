@@ -1,10 +1,6 @@
 #!/home/filipe/anaconda3/bin/python
 
-#fazer uma selecao para os pontos a serem procurados
-#ti para a rgb a ser procurada
-#parada correta na hora de plotar
-#funcao para desenhar manualmente
-#tentar automatizar
+
 
 import pandas as pd
 import numpy as np
