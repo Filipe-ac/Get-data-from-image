@@ -14,24 +14,27 @@ import sys
 from time import time
 
 def salva_dados(nome,*args):
-    ''' Function to save data to a file'''
+    try:
+        ''' Function to save data to a file'''
 
-    os.chdir('/'.join(args[0].split('/')[:-1]))
-    aux = nome; n = 1
-    while nome in os.listdir():
-        nome = aux + '_%s'%n; n+= 1
-        
-    arq = open(nome,'w')
-    s = ''
-    tamanho = len(args[0])
-    for p in range(tamanho):
-        
-        for i in args:
+##        os.chdir('/'.join(nome.split('/')[:-1]))
+        aux = nome; n = 1
+        while nome in os.listdir():
+            nome = aux + '_%s'%n; n+= 1
             
-            s += str(i[p]) + '\t'
-        s += '\n'
-    arq.write(s)
-    arq.close()
+        arq = open(nome,'w')
+        s = ''
+        tamanho = len(args[0])
+        for p in range(tamanho):
+            
+            for i in args:
+                
+                s += str(i[p]) + '\t'
+            s += '\n'
+        arq.write(s)
+        arq.close()
+    except Exception as ex:
+        print(ex,str(ex.__traceback__.tb_lineno))
 
 def busca(l,valor):
     '''Function to search for the element with the closiest value in a list l''' 
@@ -52,7 +55,7 @@ class graf(modelo):
     def __init__(self,arquivo,**args):
         super().__init__()
 
-        
+        self.folder = '/'.join(arquivo.split('/')[:-1])
         self.arquivo = arquivo
         self.im = Image.open(arquivo)
         self.matriz = np.array(self.im)
@@ -351,17 +354,30 @@ class graf(modelo):
     def move_ponto_func(self,*args):
         
         try:
+            print('asdasd')
             if self.bmove.color == [0,0,1,1]:
                 px,py = args[0].pos
                 pontox,pontoy = self.mouse2valor(px,py,self.ax.get_xlim(),
                                                  self.ax.get_ylim())
 
-                # allwo one point per pixel in x points
+                # allow one point per pixel in x points
                 #to avoid too mutch useless data
                 if args[0].button == 'left':
-                    pos = busca(self.x,pontox)
+                    if int(pontox) in self.x:
+                        pos = busca(self.x,pontox)
+                        self.y[pos] = pontoy
+                    else:
+                        pos = busca(self.x,pontox)
+                        if self.x[pos] > int(pontox):
+                            self.x.insert(pos,int(pontox))
+                            self.y.insert(pos,pontoy)
+                        else:
+                            self.x.insert(pos+1,int(pontox))
+                            self.y.insert(pos+1,pontoy)                           
+                            
                     
-                    self.y[pos] = pontoy
+                    
+                    
 
                     self.line_pontos.set_data(self.x,self.y)
                     self.fig.canvas.draw()
@@ -370,7 +386,7 @@ class graf(modelo):
                 else:
                     self.move(*args)
         except Exception as ex:
-            print(ex)
+            print(ex,str(ex.__traceback__.tb_lineno))
 
     def insert_point_func(self,*args):
         return
@@ -511,7 +527,7 @@ class graf(modelo):
                 lx = lx*cx + x0
             
             
-            salva_dados(self.tinome.text,lx,ly)
+            salva_dados(self.folder + '/' + self.tinome.text,lx,ly)
 
         except Exception as ex:
             print(ex,ex.__traceback__.tb_lineno)
@@ -536,7 +552,7 @@ class graf(modelo):
             matriz2 = []
             pixel = np.array([self.rgb[0],self.rgb[1],self.rgb[2]])/255
             self.color_mark.text = '(%.2f,%.2f,%.2f)'%(abs(1-pixel[0]),
-                                                      pixel[1],
+                                                      abs(1-pixel[1]),
                                                       abs(1-pixel[2]))
             tolerance = self.tolerance
 
